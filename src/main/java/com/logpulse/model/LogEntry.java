@@ -39,6 +39,17 @@ public class LogEntry {
     public String  getMessage()   { return message; }
     public Map<String, String> getFields() { return fields; }
 
+    /**
+     * Returns {@code true} if this entry's level is at least as severe as the given threshold.
+     * For example, {@code isAtLeast(Level.WARN)} returns true for WARN, ERROR, and FATAL entries.
+     *
+     * @param threshold the minimum severity level to test against
+     * @return true if this entry's level ordinal is greater than or equal to the threshold's ordinal
+     */
+    public boolean isAtLeast(Level threshold) {
+        return this.level.ordinal() >= threshold.ordinal();
+    }
+
     @Override
     public String toString() {
         return String.format("[%s] %s %-5s %s %s",
