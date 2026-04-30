@@ -45,6 +45,17 @@ class LogEntryTest {
     }
 
     @Test
+    void fieldsMapIsDefensiveCopy() {
+        Map<String, String> fields = new HashMap<>();
+        fields.put("k", "v");
+        LogEntry entry = new LogEntry(NOW, LogEntry.Level.INFO, "svc", "msg", fields);
+
+        // Mutating the original map after construction should not affect the entry
+        fields.put("k", "modified");
+        assertEquals("v", entry.getFields().get("k"));
+    }
+
+    @Test
     void throwsOnNullTimestamp() {
         assertThrows(IllegalArgumentException.class,
                 () -> new LogEntry(null, LogEntry.Level.INFO, "svc", "msg", null));
